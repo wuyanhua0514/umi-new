@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
+import envConfigs from './env';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -66,13 +67,21 @@ const cachedSave = (response, hashcode) => {
 export default function request(url, option) {
   const options = {
     expirys: isAntdPro(),
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     ...option,
   };
   /**
    * Produce fingerprints based on url and parameters
    * Maybe url has the same parameters
    */
-  const fingerprint = url + (options.body ? JSON.stringify(options.body) : '');
+  const prefix =
+  location.href.includes('test') || location.href.includes('localhost')
+    ? envConfigs.test.API_SERVER:envConfigs.development.API_SERVER;
+    url=prefix+url;
+  const fingerprint =url + (options.body ? JSON.stringify(options.body) : '');
+  console.log(fingerprint)
   const hashcode = hash
     .sha256()
     .update(fingerprint)
@@ -91,6 +100,7 @@ export default function request(url, option) {
       newOptions.headers = {
         Accept: 'application/json',
         'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Bearer ${token}`,
         ...newOptions.headers,
       };
       newOptions.body = JSON.stringify(newOptions.body);
@@ -98,6 +108,7 @@ export default function request(url, option) {
       // newOptions.body is FormData
       newOptions.headers = {
         Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
         ...newOptions.headers,
       };
     }

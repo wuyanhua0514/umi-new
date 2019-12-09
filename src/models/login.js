@@ -15,13 +15,14 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
+      console.log(response,'response')
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
       // Login successfully
       if (response.status === 'ok') {
-        reloadAuthorized();
+        // reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;
@@ -50,10 +51,10 @@ export default {
         type: 'changeLoginStatus',
         payload: {
           status: false,
-          currentAuthority: 'guest',
+          // currentAuthority: 'guest',
         },
       });
-      reloadAuthorized();
+      // reloadAuthorized();
       yield put(
         routerRedux.push({
           pathname: '/user/login',
@@ -67,11 +68,12 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
+      console.log(payload,'payload')
+      setAuthority(payload.data.token);
       return {
         ...state,
         status: payload.status,
-        type: payload.type,
+        // type: payload.type,
       };
     },
   },

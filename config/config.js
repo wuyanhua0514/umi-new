@@ -4,7 +4,6 @@ import pageRoutes from './router.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 import slash from 'slash2';
-
 const plugins = [
   [
     'umi-plugin-react',
@@ -73,8 +72,8 @@ export default {
     '@antv/data-set': 'DataSet',
   },
   // proxy: {
-  //   '/server/api/': {
-  //     target: 'https://preview.pro.ant.design/',
+  //   '/api/backend': {
+  //     target: 'http://test-ssp-backend.7654.com',
   //     changeOrigin: true,
   //     pathRewrite: { '^/server': '' },
   //   },
