@@ -63,6 +63,7 @@ const cachedSave = (response, hashcode) => {
  * @param  {object} [option] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
+const prefix=window.location.href.indexOf("locallhost")>-1?"http://test-ssp-backend.7654.com/api/backend":"http://ssp-backend.7654.com/api/backend";
 export default function request(url, option) {
   const options = {
     expirys: isAntdPro(),
@@ -72,6 +73,7 @@ export default function request(url, option) {
    * Produce fingerprints based on url and parameters
    * Maybe url has the same parameters
    */
+  url=prefix+url;
   const fingerprint = url + (options.body ? JSON.stringify(options.body) : '');
   const hashcode = hash
     .sha256()
@@ -79,7 +81,7 @@ export default function request(url, option) {
     .digest('hex');
 
   const defaultOptions = {
-    credentials: 'include',
+    withCredentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };
   if (

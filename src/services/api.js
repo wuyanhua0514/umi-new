@@ -104,9 +104,12 @@ export async function updateFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+  return request('/user/login', {
     method: 'POST',
     body: params,
+    headers: {
+      'Content-Type': 'application/json',
+},
   });
 }
 

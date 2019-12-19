@@ -49,6 +49,7 @@ const links = [
 class Workplace extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
+    console.log(this.props,"this.props")
     dispatch({
       type: 'user/fetchCurrent',
     });

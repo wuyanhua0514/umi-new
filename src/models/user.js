@@ -1,5 +1,4 @@
 import { query as queryUsers, queryCurrent } from '@/services/user';
-
 export default {
   namespace: 'user',
 
@@ -11,6 +10,7 @@ export default {
   effects: {
     *fetch(_, { call, put }) {
       const response = yield call(queryUsers);
+      console.log(response,"queryUsers")
       yield put({
         type: 'save',
         payload: response,
@@ -18,6 +18,7 @@ export default {
     },
     *fetchCurrent(_, { call, put }) {
       const response = yield call(queryCurrent);
+      console.log(response,"queryCurrent")
       yield put({
         type: 'saveCurrentUser',
         payload: response,
